@@ -1,0 +1,72 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<title>JSF Hibernate JQuery</title>
+	<script src="js/jquery.min.js"></script>
+	<link rel="stylesheet" href="css/w3.css" />
+	<script>
+		function addProduct() {
+			$("#productForm").show();
+		}
+	</script>
+</h:head>
+<h:body>
+	<h3>Product List for #{userBean.loginUserName}</h3>
+	<h3>
+		<a href="javascript:addProduct()">Add Product</a>
+	</h3>
+	<h:form id="productForm" class="w3-form" style="display:none;">
+		<h:outputLabel class="w3-label" value="Product Name:" />
+		<h:inputText class="w3-input w3-border" value="#{productBean.productName}" style="width:25%;" />
+		<br />
+		<h:outputLabel class="w3-label" value="Price:" />
+		<h:inputText class="w3-input w3-border" value="#{productBean.price}" style="width:25%;" />
+		<br />
+		<h:commandButton value="Add" action="#{productBean.saveProduct}" />
+	</h:form>
+	<h:form>
+		<h3>
+			<h:commandLink action="#{userBean.logoutUser}" value="Logout"></h:commandLink>
+		</h3>
+		<h:dataTable id="productList" class="w3-table" value="#{productBean.productList}" var="product" columnClasses="w3-label" rowClasses="w3-label">
+			<h:column>
+				<f:facet name="header">Product Name</f:facet>
+				<h:inputText class="w3-input w3-border" value="#{productBean.productName}" rendered="#{product.editable}">
+				    <f:ajax event="blur" render="result" listener="#{productBean.updateProductName}"/> 
+				</h:inputText>
+				<h:outputText value="#{product.productName}"
+					rendered="#{!product.editable}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">Price</f:facet>
+				<h:inputText class="w3-input w3-border" value="#{productBean.price}" rendered="#{product.editable}">
+				    <f:ajax event="blur" render="result" listener="#{productBean.updateProductPrice}"/> 
+				</h:inputText>
+				<h:outputText value="#{product.price}"
+					rendered="#{!product.editable}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">Update</f:facet>
+				<h:commandButton value="Edit" action="#{productBean.editProduct}"
+					rendered="#{!product.editable}">
+					<f:setPropertyActionListener target="#{productBean.product}"
+						value="#{product}" />
+				</h:commandButton>
+				<h:commandButton value="Save" action="#{productBean.updateProduct}"
+					rendered="#{product.editable}" update="productList">
+					<f:setPropertyActionListener target="#{product}" value="#{productBean.product}" />
+				</h:commandButton>
+			</h:column>
+			<h:column>
+				<f:facet name="header">Delete</f:facet>
+				<h:commandButton icon="ui-icon-close" value="Delete"
+					actionListener="#{productBean.deleteProduct(product)}"
+					update="productList" />
+			</h:column>
+
+		</h:dataTable>
+
+	</h:form>
+</h:body>
+</html>

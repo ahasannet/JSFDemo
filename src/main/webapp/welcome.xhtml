@@ -1,0 +1,45 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+	<title>JSF Hibernate JQuery</title>
+	<script src="js/jquery.min.js"></script>
+	<link rel="stylesheet" href="css/w3.css" />
+	<script>
+		function signUp() {
+			$("#loginForm").hide();
+			$("#signUpForm").show();
+		}
+		function login() {
+			$("#signUpForm").hide();
+			$("#loginForm").show();
+		}
+	</script>
+</h:head>
+<h:body>
+	<h3>
+		<a href="javascript:signUp()">New User Signup</a>
+	</h3>
+	<h:form id="signUpForm" class="w3-form" style="display:none;">
+		<h:outputLabel class="w3-label" value="User Name:" />
+		<h:inputText class="w3-input w3-border" value="#{userBean.userName}" style="width:25%;" />
+		<br />
+		<h:outputLabel class="w3-label" value="Password:" />
+		<h:inputSecret class="w3-input w3-border" value="#{userBean.password}" style="width:25%;" />
+		<br />
+		<h:commandButton value="Sign Up" action="#{userBean.saveUser}" />
+	</h:form>
+	<h3>
+		<a href="javascript:login()">Existing User Login</a>
+	</h3>
+	<h:form id="loginForm" class="w3-form" style="display:none;">
+		<h:outputLabel class="w3-label" value="User Name:" />
+		<h:inputText class="w3-input w3-border" value="#{userBean.userName}" style="width:25%;" />
+		<br />
+		<h:outputLabel class="w3-label" value="Password:" />
+		<h:inputSecret class="w3-input w3-border" value="#{userBean.password}" style="width:25%;" />
+		<br />
+		<h:commandButton value="Login" action="#{userBean.loginUser}" />
+	</h:form>
+</h:body>
+</html>
